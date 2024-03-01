@@ -14,7 +14,9 @@ class _SavedImageViewState extends State<SavedImageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
+      appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 25, 40, 46),
+          title: const Text("WhatsApp Story Editor Results")),
       backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
