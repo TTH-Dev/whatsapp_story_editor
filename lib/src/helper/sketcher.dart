@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:perfect_freehand/perfect_freehand.dart';
+import 'package:perfect_freehand/perfect_freehand.dart' ;
 import 'package:whatsapp_story_editor/src/controller/editing_controller.dart';
 import 'package:whatsapp_story_editor/src/enums/editing_mode.dart';
 import 'package:whatsapp_story_editor/src/models/graphic_info.dart';
@@ -25,18 +25,42 @@ class Sketcher extends CustomPainter {
     if (editingmode == EDITINGMODE.DRAWING) {
       Paint paint = Paint()..color = paintInfo!.options.color;
       for (int i = 0; i < paintInfo!.lines.length; ++i) {
+       StrokeOptions options = StrokeOptions(
+     
+    size:  paintInfo!.lines[i].options.size,
+    thinning: paintInfo!.lines[i].options.thinning,
+    smoothing: paintInfo!.lines[i].options.smoothing,
+    streamline:  paintInfo!.lines[i].options.streamline,
+    simulatePressure:  paintInfo!.lines[i].options.simulatePressure,
+    isComplete: paintInfo!.lines[i].options.isComplete,
+   
+  
+    start: StrokeEndOptions.start(
+      taperEnabled: true,
+      customTaper: paintInfo!.lines[i].options.taperStart,
+      cap:  paintInfo!.lines[i].options.capStart,
+    ),
+    end: StrokeEndOptions.end(
+      taperEnabled: true,
+      customTaper:  paintInfo!.lines[i].options.taperEnd,
+      cap:  paintInfo!.lines[i].options.capEnd,
+    ),
+   
+  );
         final outlinePoints = getStroke(
           paintInfo!.lines[i].points,
-          size: paintInfo!.lines[i].options.size,
-          thinning: paintInfo!.lines[i].options.thinning,
-          smoothing: paintInfo!.lines[i].options.smoothing,
-          streamline: paintInfo!.lines[i].options.streamline,
-          taperStart: paintInfo!.lines[i].options.taperStart,
-          capStart: paintInfo!.lines[i].options.capStart,
-          taperEnd: paintInfo!.lines[i].options.taperEnd,
-          capEnd: paintInfo!.lines[i].options.capEnd,
-          simulatePressure: paintInfo!.lines[i].options.simulatePressure,
-          isComplete: paintInfo!.lines[i].options.isComplete,
+       options:options
+   
+          // size: paintInfo!.lines[i].options.size,
+          // thinning: paintInfo!.lines[i].options.thinning,
+          // smoothing: paintInfo!.lines[i].options.smoothing,
+          // streamline: paintInfo!.lines[i].options.streamline,
+          // taperStart: paintInfo!.lines[i].options.taperStart,
+          // capStart: paintInfo!.lines[i].options.capStart,
+          // taperEnd: paintInfo!.lines[i].options.taperEnd,
+          // capEnd: paintInfo!.lines[i].options.capEnd,
+          // simulatePressure: paintInfo!.lines[i].options.simulatePressure,
+          // isComplete: paintInfo!.lines[i].options.isComplete,
         );
         paint.color = paintInfo!.lines[i].color;
         paint
@@ -54,16 +78,16 @@ class Sketcher extends CustomPainter {
         } else if (outlinePoints.length < 2) {
           // If the path only has one line, draw a dot.
           path.addOval(Rect.fromCircle(
-              center: Offset(outlinePoints[0].x, outlinePoints[0].y),
+              center: Offset(outlinePoints[0].dx, outlinePoints[0].dy),
               radius: 1));
         } else {
           // Otherwise, draw a line that connects each point with a curve.
-          path.moveTo(outlinePoints[0].x, outlinePoints[0].y);
+          path.moveTo(outlinePoints[0].dx, outlinePoints[0].dy);
           for (int i = 1; i < outlinePoints.length - 1; ++i) {
             final p0 = outlinePoints[i];
             final p1 = outlinePoints[i + 1];
             path.quadraticBezierTo(
-                p0.x, p0.y, (p0.x + p1.x) / 2, (p0.y + p1.y) / 2);
+                p0.dx, p0.dy, (p0.dx + p1.dx) / 2, (p0.dy + p1.dy) / 2);
           }
         }
         canvas.drawPath(path, paint);

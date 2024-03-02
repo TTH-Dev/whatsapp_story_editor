@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'dart:ui';
-import 'package:perfect_freehand/perfect_freehand.dart';
+import 'package:perfect_freehand/perfect_freehand.dart' as perfect;
 import 'package:whatsapp_story_editor/src/controller/editing_controller.dart';
 import 'package:whatsapp_story_editor/src/enums/editing_mode.dart';
 import 'package:whatsapp_story_editor/src/models/paint_info.dart';
@@ -174,16 +174,16 @@ class _PainterState extends State<Painter> {
 
     final box = context.findRenderObject() as RenderBox;
     final offset = box.globalToLocal(details.position);
-    late final Point point;
+    late final perfect.Point point;
     if (details.kind == PointerDeviceKind.stylus) {
-      point = Point(
+      point = perfect.Point(
         offset.dx,
         offset.dy,
         (details.pressure - details.pressureMin) /
             (details.pressureMax - details.pressureMin),
       );
     } else {
-      point = Point(offset.dx, offset.dy);
+      point = perfect.Point(offset.dx, offset.dy);
     }
     final points = [point];
     line = Stroke(points, controller.hueController.value.toColor(), options);
@@ -193,16 +193,16 @@ class _PainterState extends State<Painter> {
   void onPointerMove(PointerMoveEvent details) {
     final box = context.findRenderObject() as RenderBox;
     final offset = box.globalToLocal(details.position);
-    late final Point point;
+    late final perfect.Point point;
     if (details.kind == PointerDeviceKind.stylus) {
-      point = Point(
+      point = perfect.Point(
         offset.dx,
         offset.dy,
         (details.pressure - details.pressureMin) /
             (details.pressureMax - details.pressureMin),
       );
     } else {
-      point = Point(offset.dx, offset.dy);
+      point = perfect.Point(offset.dx, offset.dy);
     }
     final points = [...line!.points, point];
     line = Stroke(points, controller.hueController.value.toColor(), options);

@@ -14,7 +14,7 @@ dependencies:
 
   whatsapp_camera: 
   photofilters: 
-  perfect_freehand: 
+  # perfect_freehand: 
   image_crop_plus_updated: 
   hsv_color_pickers: 
   get:
@@ -24,6 +24,7 @@ dependencies:
   dotted_border: 
   image_cropper: 
   image_picker: 
+  perfect_freehand: ^2.3.2
   
 dev_dependencies:
   flutter_test:
